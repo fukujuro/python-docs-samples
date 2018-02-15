@@ -4,8 +4,8 @@ threadsafe: true
 instance_class: F4_1G
 
 handlers:
-- url: /.*
-  script: main.app
+# - url: /.*
+#   script: main.app
 
 - url: /
   static_files: index.html
