@@ -6,3 +6,8 @@ instance_class: F4_1G
 handlers:
 - url: /.*
   script: main.app
+
+- url: /
+  static_files: index.html
+  upload: index\.html
+  secure: always

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://pantip.com/css/version/1511858671/style.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css"> -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+        .samgee .submenu-room .submenu-room-list {
+            /* margin-right: -5px; */
+        }
+        .samgee .submenu-room-item {
+            margin-bottom: 0px;
+            display: inline-flex;
+        }
+        .samgee .submenu-room-item .iconwrap {
+            background: #1A7B72 !important;
+            border: solid 1px #00D1B2 !important;
+        }
+        .box, .button, .button.is-small {
+            border-radius: 0px;
+        }
+
+        .pulse {
+            animation: pulse 3s infinite ;
+            -moz-animation: pulse 3s infinite;
+        }
+        .pulse:hover {
+            animation: none;
+        }
+        @keyframes pulse {
+            0% {
+                -moz-box-shadow: 0 0 0 0 ;
+                box-shadow: 0 0 0 0 ;
+            }
+            70% {
+                -moz-box-shadow: 0 0 0 4px white;
+                box-shadow: 0 0 0 4px white;
+            }
+            100% {
+                -moz-box-shadow: 0 0 0 0 white;
+                box-shadow: 0 0 0 0 white;
+            }
+        }
+        html {
+            min-width: 320px;
+        }
+        body {
+            background: white;
+            min-width: 320px;
+            display: inline-flex;
+            /* font-size: 1rem; */
+            /* color: black; */
+        }
+
+        @media screen and (min-width: 320px) {
+            .container {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .submenu-room {
+                display: flex;
+                position: absolute;
+                transform: translate(-108px, 0);
+                transition: transform 0.3s ease;
+            }
+            .samgee {
+                width: 100%;
+                height: 345px;
+                /* position: relative; */
+            }
+            .block {
+                width: 50%;
+            }
+            .submenu-room-list {
+                min-width: 142px;
+                height: 345px;
+                
+                /* display: inline-block; */
+                /* vertical-align: top; */
+            }
+            .submenu-room.righted {
+                transform: translate(-391px, 0);
+            }
+            .submenu-room.lefted {
+                transform: translate(0, 0);
+            }
+            .button {
+                opacity: 0.5;
+                /* padding-left: calc(0.625em - 1px);
+                padding-right: calc(0.625em - 1px); */
+                font-size: 4rem;
+                border: none;
+                padding: 10px;
+            }
+            .button.left {
+                position: fixed;
+                height: 345px;
+                left: 0px;
+            }
+            .button.hidden {
+                display: none;
+            }
+            .button.right {
+                position: fixed;
+                height: 345px;
+                right: 0px;
+            }
+        }
+
+        @media screen and (min-width: 360px) {
+            .submenu-room.righted {
+                transform: translate(-351px, 0);
+            }
+        }
+
+        @media screen and (min-width: 414px) {
+            .submenu-room {
+                transform: translate(0px, 0);
+            }
+            .submenu-room.righted {
+                transform: translate(-297px, 0);
+            }
+            /* .button.left {
+                display: none; */
+        }
+
+        /* @media screen and (min-width: 602px) {
+            .submenu-room.righted {
+                transform: translate(-142px, 0);
+            }
+            .button.right {
+                display: none;
+            }
+        } */
+        @media screen and (min-width: 710px) {
+            .container, .submenu-room {
+                width: 710px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .button.right {
+                display: none;
+            }
+        }
+
+    </style>
+
+    <title>Bulma Sandbox</title>
+
+</head>
+<body>
+    <div class="container">
+        <div class="samgee">
+            
+            <div id="app" class="submenu-room">
+                <ul class="submenu-room-list box" v-for="forum in forums">
+                    <li class="submenu-room-item" v-for="item in forum">
+                        <a href="#" class="room-top-nav" :id="item.id"></a>
+                        <em class="iconwrap"><span :class="['icon-roommenu', item.icon]"></span></em>
+                        <span class="title">{{ item.title }}</span>
+                    </li>
+                        
+                </ul>
+
+                <!-- <div class="submenu-room-list box">1</div>
+                <div class="submenu-room-list box">2</div>
+                <div class="submenu-room-list box">3</div>
+                <div class="submenu-room-list box">4</div>
+                <div class="submenu-room-list box">5</div> -->
+            </div>
+
+            <div class="block">
+                    <button class="button left"><i class="fas fa-angle-left"></i></button>
+                    <button class="button right"><i class="fas fa-angle-right"></i></button>
+                    <!-- <button class="button right"><i class="fas fa-angle-right"></i></button> -->
+            </div>
+        </div>
+        <!-- <div class="block"></div> -->
+        <!-- <div class="block">
+            <div style="font-size:3em; color:Tomato">
+                <span class="fas fa-camera-retro"></span>
+            </div>
+            <i class="fas fa-bars"></i>
+            <h1 class="title"><div class="fas fa-bars"></div>Hello</h1>
+            <h1 class="subtitle">Hello</h1>
+
+            <h1 class="title">Hello</h1>
+            <h2 class="title is-2">Hello</h2>
+            <h3 class="title is-3">Hello</h3>
+            <h4 class="title is-4">Hello</h4>
+            <h5 class="title is-5">Hello</h5>
+            <h6 class="title is-6">Hello</h6>
+        </div>
+
+            <div class="block">
+                <button id="left" class="button">left</button>
+                <button class="button is-white">button</button>
+                <button id="right" class="button is-light">right</button>
+                <button class="button is-dark">button</button>
+                <button class="button is-white">button</button>
+                <button class="button is-link">button</button>
+            </div>
+
+            <div class="block">
+                <a href="" class="button is-primary is-small is-outlined pulse">Primary</a>
+                <a href="" class="button is-info is-large is-outlined pulse">Info</a>
+                <a href="" class="button is-success is-outlined pulse">Success</a>
+                <a href="" class="button is-warning pulse">Warning</a>
+                <a href="" class="button is-danger">Danger</a>
+            </div> -->
+        
+    </div>
+
+    <script>
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+                forums: [
+                    [
+                        {
+                            title: 'ก้นครัว',
+                            id: 'food',
+                            icon: 'icon-food'
+                        },
+                        {
+                            title: 'กรีนโซน',
+                            id: 'greenzone',
+                            icon: 'icon-greenzone'
+                        },
+                        {
+                            title: 'กรุงโซล',
+                            id: 'korea',
+                            icon: 'icon-kr'
+                        },
+                        {
+                            title: 'กล้อง',
+                            id: 'camera',
+                            icon: 'icon-camera'
+                        },
+                        {
+                            title: 'การ์ตูน',
+                            id: 'cartoon',
+                            icon: 'icon-cartoon'
+                        },
+                        {
+                            title: 'แกลเลอรี่',
+                            id: 'gallery',
+                            icon: 'icon-gallery'
+                        },
+                        {
+                            title: 'ไกลบ้าน',
+                            id: 'klaibann',
+                            icon: 'icon-klaiban'
+                        },
+                        {
+                            title: 'จตุจักร',
+                            id: 'jatujak',
+                            icon: 'icon-pet'
+                        }
+                    ],
+                    [
+                        {
+                            title: 'alpha',
+                            id: 'alpla',
+                            icon: 'icon-alpha'
+                        }
+                    ],
+                    [
+                        {
+                            title: 'beta',
+                            id: 'beta',
+                            icon: 'icon-beta'
+                        }
+                    ],
+                    [
+                        {
+                            title: 'lorem',
+                            id: 'lorem',
+                            icon: 'icon-lorem'
+                        }
+                    ],
+                    [
+                        {
+                            title: 'ipsum',
+                            id: 'ipsum',
+                            icon: 'icon-ipsum'
+                        }
+                    ]
+                ]
+            }
+        });
+        
+      /*
+       * Open the drawer when the menu ison is clicked.
+       */
+      var right = document.querySelector('.button.right');
+      var left = document.querySelector('.button.left');
+    //   var main = document.querySelector('main');
+      var drawer = document.querySelector('.submenu-room');
+
+      var cursor = 0;
+
+      if (window.matchMedia("(min-width: 414px)").matches) {
+                left.classList.add('hidden');
+            }
+
+      right.addEventListener('click', function(e) {
+          if (cursor == 0) {
+            drawer.classList.toggle('righted');
+            right.classList.toggle('hidden');
+            cursor = 1;
+            // for 414px
+            if (window.matchMedia("(min-width: 414px)").matches) {
+                left.classList.remove('hidden');
+            }
+            // left.classList.add('hidden');
+          }
+          else {
+            drawer.classList.remove('lefted');
+            left.classList.toggle('hidden');
+            cursor = 0;
+          }
+        //   e.stopPropagation();
+      });
+      left.addEventListener('click', function(e) {
+          if (cursor == 0) {
+            drawer.classList.toggle('lefted');
+            left.classList.toggle('hidden');
+            cursor = 1;
+          }
+          else {
+            drawer.classList.remove('righted');
+            right.classList.toggle('hidden');
+            cursor = 0;
+            if (window.matchMedia("(min-width: 414px)").matches) {
+                left.classList.add('hidden');
+            }
+          }
+        //   drawer.classList.remove('righted');
+        //   right.classList.toggle('rightest')
+      })
+    //   main.addEventListener('click', function() {
+    //     drawer.classList.remove('open');
+    //   });
+
+
+        // const submenuRoom = document.querySelector('.submenu-room');
+        // function moveRight(e) {
+        //   submenuRoom.classList.toggle('righted');
+        //   e.stopPropagation();
+        // }
+        // const left = document.querySelector('#left');
+        // const right = document.querySelector('#right');
+        // left.addEventListener('click', moveLeft);
+        // right.addEventListener('click', e => submenuRoom.classList.toggle('righted'));
+        
+    </script>
+</body>
+</html>
