@@ -11,3 +11,6 @@ handlers:
   static_files: index.html
   upload: index\.html
   secure: always
+
+- url: /off-canvas_files
+  static_dir: css
