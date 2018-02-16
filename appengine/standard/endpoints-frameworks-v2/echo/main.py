@@ -53,7 +53,8 @@ ECHO_RESOURCE = endpoints.ResourceContainer(
 
 
 # [START echo_api]
-@endpoints.api(name='echo', version='v1')
+@endpoints.api(name='echo', version='v1',
+    allowed_client_ids=[endpoints.API_EXPLORER_CLIENT_ID])
 class EchoApi(remote.Service):
 
     @endpoints.method(TaskForm, TaskForm, path='forum',
