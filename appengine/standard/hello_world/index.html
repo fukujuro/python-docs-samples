@@ -1,364 +1,411 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://pantip.com/css/version/1511858671/style.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css"> -->
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="off-canvas_files/default-styles.css">
+    <link rel="stylesheet" href="https://m.pantip.com/css/final_gadget_02Feb.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-    <script src="https://unpkg.com/vue"></script>
-    <style>
-        .samgee .submenu-room .submenu-room-list {
-            margin-right: -4px;
-        }
-        .samgee .submenu-room-item {
-            margin-bottom: 0px;
-            display: inline-flex;
-        }
-        .samgee .submenu-room-item .iconwrap {
-            background: #1A7B72 !important;
-            border: solid 1px #00D1B2 !important;
-        }
-        .box, .button, .button.is-small {
-            border-radius: 0px;
+
+    <style type="text/css">
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+      a#menu svg {
+        width: 40px;
+        fill: #000;
+      }
+      nav, main {
+        /* padding: 1em; */
+        box-sizing: border-box;
+      }
+      main {
+        width: 100%;
+        height: 800px;
+      }
+      /*
+       * Off-canvas layout styles.
+       */
+
+      /* Since we're mobile-first, by default, the drawer is hidden. */
+      nav {
+        width: 300px;
+        height: 800px;
+        position: absolute;
+        /* This trasform moves the drawer off canvas. */
+        -webkit-transform: translate(-300px, 0);
+        transform: translate(-300px, 0);
+        /* Optionally, we animate the drawer. */
+        transition: transform 0.3s ease;
+      }
+      nav.open {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+      }
+
+      /* If there is enough space (> 600px), we keep the drawer open all the time. */
+      @media (min-width: 600px) {
+
+        /* We open the drawer. */
+        nav {
+          position:relative;
+          -webkit-transform: translate(0, 0);
+          transform: translate(0, 0);
         }
 
-        .pulse {
-            animation: pulse 3s infinite ;
-            -moz-animation: pulse 3s infinite;
-        }
-        .pulse:hover {
-            animation: none;
-        }
-        @keyframes pulse {
-            0% {
-                -moz-box-shadow: 0 0 0 0 ;
-                box-shadow: 0 0 0 0 ;
-            }
-            70% {
-                -moz-box-shadow: 0 0 0 4px white;
-                box-shadow: 0 0 0 4px white;
-            }
-            100% {
-                -moz-box-shadow: 0 0 0 0 white;
-                box-shadow: 0 0 0 0 white;
-            }
-        }
-        html {
-            overflow: hidden;
-        }
+        /* We use Flexbox on the parent. */
         body {
-            background: white;
-            min-width: 320px;
-            display: flex
-            /* font-size: 1rem; */
-            /* color: black; */
+          display: -webkit-flex;
+          display: flex;
+          -webkit-flex-flow: row nowrap;
+          flex-flow: row nowrap;
         }
 
-        @media screen and (min-width: 320px) {
-            .container {
-                display: flex;
-                flex-wrap: wrap;
-            }
-            .submenu-room {
-                display: flex;
-                position: absolute;
-                transform: translate(-108px, 0);
-                transition: transform 0.3s ease;
-            }
-            .samgee {
-                width: 100%;
-                height: 345px;
-                /* position: relative; */
-            }
-            .block {
-                width: 50%;
-            }
-            .submenu-room-list {
-                min-width: 142px;
-                height: 345px;
-                
-                /* display: inline-block; */
-                /* vertical-align: top; */
-            }
-            .submenu-room.righted {
-                transform: translate(-391px, 0);
-            }
-            .submenu-room.lefted {
-                transform: translate(0, 0);
-            }
-            .button {
-                opacity: 0.5;
-                /* padding-left: calc(0.625em - 1px);
-                padding-right: calc(0.625em - 1px); */
-                font-size: 4rem;
-                border: none;
-                padding: 10px;
-            }
-            .button.left {
-                position: fixed;
-                height: 345px;
-                left: 0px;
-            }
-            .button.hidden {
-                display: none;
-            }
-            .button.right {
-                position: fixed;
-                height: 345px;
-                right: 0px;
-            }
+        main {
+          width: auto;
+          /* Flex-grow streches the main content to fill all available space. */
+          flex-grow: 1;
         }
+      }
 
-        @media screen and (min-width: 360px) {
-            .submenu-room.righted {
-                transform: translate(-351px, 0);
-            }
+      /* If there is space (> 800px), we keep the drawer open by default. */
+      @media (min-width: 601px) {
+        main > #menu:after {
+          content: 'The drawer stays open if width > 600px';
         }
-
-        @media screen and (min-width: 414px) {
-            .submenu-room {
-                transform: translate(0px, 0);
-            }
-            .submenu-room.righted {
-                transform: translate(-297px, 0);
-            }
-            /* .button.left {
-                display: none; */
+        main p, nav p {
+          text-decoration: line-through;
         }
-
-        /* @media screen and (min-width: 602px) {
-            .submenu-room.righted {
-                transform: translate(-142px, 0);
-            }
-            .button.right {
-                display: none;
-            }
-        } */
-        @media screen and (min-width: 710px) {
-            .container, .submenu-room {
-                width: 710px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .button.right {
-                display: none;
-            }
-        }
+      }
 
     </style>
+  </head>
+  <body>
+    <nav id="drawer" class="dark_blue">
+        <a id="menu2">
+            <i class="fas fa-bars" style="font-size: 2.5em"></i>
+          </a>
+      <!-- <h2>Off Canvas</h2>
+      <p>Click outside the drawer to close</p> -->
 
-    <title>Bulma Sandbox</title>
+      <div class="content before active" id="panel2"> 
+										  
+          <div class="row border-top">
+                         <a href="/forum/food" class="room-top-nav" id="food">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="food" src="//ptcdn.info/mobile/room/icon-food.png"></span>
+                  <span class="room-name">ก้นครัว</span>
+                </div>
+              </a>
+                         <a href="/forum/greenzone" class="room-top-nav" id="greenzone">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="greenzone" src="//ptcdn.info/mobile/room/icon-greenzone.png"></span>
+                  <span class="room-name">กรีนโซน</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/korea" class="room-top-nav" id="korea">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="korea" src="//ptcdn.info/mobile/room/icon-korea.png"></span>
+                  <span class="room-name">กรุงโซล</span>
+                </div>
+              </a>
+                         <a href="/forum/camera" class="room-top-nav" id="camera">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="camera" src="//ptcdn.info/mobile/room/icon-camera.png"></span>
+                  <span class="room-name">กล้อง</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/cartoon" class="room-top-nav" id="cartoon">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="cartoon" src="//ptcdn.info/mobile/room/icon-cartoon.png"></span>
+                  <span class="room-name">การ์ตูน</span>
+                </div>
+              </a>
+                         <a href="/forum/gadget" class="room-top-nav" id="gadget">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="gadget" src="//ptcdn.info/mobile/room/icon-gadget.svg"></span>
+                  <span class="room-name">แก็ดเจ็ต</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/gallery" class="room-top-nav" id="gallery">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="gallery" src="//ptcdn.info/mobile/room/icon-gallery.png"></span>
+                  <span class="room-name">แกลเลอรี่</span>
+                </div>
+              </a>
+                         <a href="/forum/klaibann" class="room-top-nav" id="klaibann">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="klaibann" src="//ptcdn.info/mobile/room/icon-klaibann.png"></span>
+                  <span class="room-name">ไกลบ้าน</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/jatujak" class="room-top-nav" id="jatujak">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="jatujak" src="//ptcdn.info/mobile/room/icon-jatujak.png"></span>
+                  <span class="room-name">จตุจักร</span>
+                </div>
+              </a>
+                         <a href="/forum/chalermkrung" class="room-top-nav" id="chalermkrung">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="chalermkrung" src="//ptcdn.info/mobile/room/icon-chalermkrung.png"></span>
+                  <span class="room-name">เฉลิมกรุง</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/chalermthai" class="room-top-nav" id="chalermthai">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="chalermthai" src="//ptcdn.info/mobile/room/icon-chalermthai.png"></span>
+                  <span class="room-name">เฉลิมไทย</span>
+                </div>
+              </a>
+                         <a href="/forum/family" class="room-top-nav" id="family">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="family" src="//ptcdn.info/mobile/room/icon-family.png"></span>
+                  <span class="room-name">ชานเรือน</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/home" class="room-top-nav" id="home">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="home" src="//ptcdn.info/mobile/room/icon-home.png"></span>
+                  <span class="room-name">ชายคา</span>
+                </div>
+              </a>
+                         <a href="/forum/siliconvalley" class="room-top-nav" id="siliconvalley">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="siliconvalley" src="//ptcdn.info/mobile/room/icon-siliconvalley.png"></span>
+                  <span class="room-name">ซิลิคอนวัลเลย์</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/theoldsiam" class="room-top-nav" id="theoldsiam">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="theoldsiam" src="//ptcdn.info/mobile/room/icon-theoldsiam.png"></span>
+                  <span class="room-name">ดิโอลด์สยาม</span>
+                </div>
+              </a>
+                         <a href="/forum/beauty" class="room-top-nav" id="beauty">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="beauty" src="//ptcdn.info/mobile/room/icon-beauty.png"></span>
+                  <span class="room-name">โต๊ะเครื่องแป้ง</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/writer" class="room-top-nav" id="writer">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="writer" src="//ptcdn.info/mobile/room/icon-writer.png"></span>
+                  <span class="room-name">ถนนนักเขียน</span>
+                </div>
+              </a>
+                         <a href="/forum/blueplanet" class="room-top-nav" id="blueplanet">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="blueplanet" src="//ptcdn.info/mobile/room/icon-blueplanet.png"></span>
+                  <span class="room-name">บลูแพลนเน็ต</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/tvshow" class="room-top-nav" id="tvshow">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="tvshow" src="//ptcdn.info/mobile/room/icon-tvshow.png"></span>
+                  <span class="room-name">บางขุนพรหม</span>
+                </div>
+              </a>
+                         <a href="/forum/bangrak" class="room-top-nav" id="bangrak">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="bangrak" src="//ptcdn.info/mobile/room/icon-bangrak.png"></span>
+                  <span class="room-name">บางรัก</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/horoscope" class="room-top-nav" id="horoscope">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="horoscope" src="//ptcdn.info/mobile/room/icon-horoscope.png"></span>
+                  <span class="room-name">พรหมชาติ</span>
+                </div>
+              </a>
+                         <a href="/forum/pantip" class="room-top-nav" id="pantip">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="pantip" src="//ptcdn.info/mobile/room/icon-pantip.png"></span>
+                  <span class="room-name">พันทิป</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/region" class="room-top-nav" id="region">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="region" src="//ptcdn.info/mobile/room/icon-region.png"></span>
+                  <span class="room-name">ภูมิภาค</span>
+                </div>
+              </a>
+                         <a href="/forum/mbk" class="room-top-nav" id="mbk">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="mbk" src="//ptcdn.info/mobile/room/icon-mbk.png"></span>
+                  <span class="room-name">มาบุญครอง</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/all" class="room-top-nav" id="all">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="all" src="//ptcdn.info/mobile/room/icon-all.png"></span>
+                  <span class="room-name">รวมมิตร</span>
+                </div>
+              </a>
+                         <a href="/forum/ratchada" class="room-top-nav" id="ratchada">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="ratchada" src="//ptcdn.info/mobile/room/icon-ratchada.png"></span>
+                  <span class="room-name">รัชดา</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/rajdumnern" class="room-top-nav" id="rajdumnern">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="rajdumnern" src="//ptcdn.info/mobile/room/icon-rajdumnern.png"></span>
+                  <span class="room-name">ราชดำเนิน</span>
+                </div>
+              </a>
+                         <a href="/forum/isolate" class="room-top-nav" id="isolate">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="isolate" src="//ptcdn.info/mobile/room/icon-isolate.png"></span>
+                  <span class="room-name">ไร้สังกัด</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/social" class="room-top-nav" id="social">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="social" src="//ptcdn.info/mobile/room/icon-social.png"></span>
+                  <span class="room-name">ศาลาประชาคม</span>
+                </div>
+              </a>
+                         <a href="/forum/religious" class="room-top-nav" id="religious">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="religious" src="//ptcdn.info/mobile/room/icon-religious.png"></span>
+                  <span class="room-name">ศาสนา</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/supachalasai" class="room-top-nav" id="supachalasai">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="supachalasai" src="//ptcdn.info/mobile/room/icon-supachalasai.png"></span>
+                  <span class="room-name">ศุภชลาศัย</span>
+                </div>
+              </a>
+                         <a href="/forum/siam" class="room-top-nav" id="siam">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="siam" src="//ptcdn.info/mobile/room/icon-siam.png"></span>
+                  <span class="room-name">สยามสแควร์</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/lumpini" class="room-top-nav" id="lumpini">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="lumpini" src="//ptcdn.info/mobile/room/icon-lumpini.png"></span>
+                  <span class="room-name">สวนลุมพินี</span>
+                </div>
+              </a>
+                         <a href="/forum/sinthorn" class="room-top-nav" id="sinthorn">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="sinthorn" src="//ptcdn.info/mobile/room/icon-sinthorn.png"></span>
+                  <span class="room-name">สินธร</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/silom" class="room-top-nav" id="silom">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="silom" src="//ptcdn.info/mobile/room/icon-silom.png"></span>
+                  <span class="room-name">สีลม</span>
+                </div>
+              </a>
+                         <a href="/forum/wahkor" class="room-top-nav" id="wahkor">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="wahkor" src="//ptcdn.info/mobile/room/icon-wahkor.png"></span>
+                  <span class="room-name">หว้ากอ</span>
+                </div>
+              </a>
+                    </div>
+                
+          <div class="row border-top">
+                         <a href="/forum/library" class="room-top-nav" id="library">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="library" src="//ptcdn.info/mobile/room/icon-library.png"></span>
+                  <span class="room-name">ห้องสมุด</span>
+                </div>
+              </a>
+                         <a href="/forum/art" class="room-top-nav" id="art">
+                <div class="small-6 columns no-padding">
+                  <span class="room-icon"><img class="art" src="//ptcdn.info/mobile/room/icon-art.png"></span>
+                  <span class="room-name">หอศิลป์</span>
+                </div>
+              </a>
+                    </div>
+          </div>
+    </nav>
 
-</head>
-<body>
-    <div class="container">
-        <div class="samgee">
-            
-            <div id="app" class="submenu-room">
-                <ul class="submenu-room-list box" v-for="forum in forums">
-                    <li class="submenu-room-item" v-for="item in forum">
-                        <a href="#" class="room-top-nav" :id="item.id"></a>
-                        <em class="iconwrap"><span :class="['icon-roommenu', item.icon]"></span></em>
-                        <span class="title">{{ item.title }}</span>
-                    </li>
-                        
-                </ul>
-
-                <!-- <div class="submenu-room-list box">1</div>
-                <div class="submenu-room-list box">2</div>
-                <div class="submenu-room-list box">3</div>
-                <div class="submenu-room-list box">4</div>
-                <div class="submenu-room-list box">5</div> -->
-            </div>
-
-            <div class="block">
-                    <button class="button left"><i class="fas fa-angle-left"></i></button>
-                    <button class="button right"><i class="fas fa-angle-right"></i></button>
-                    <!-- <button class="button right"><i class="fas fa-angle-right"></i></button> -->
-            </div>
-        </div>
-        <!-- <div class="block"></div> -->
-        <div class="block">
-            <div style="font-size:3em; color:Tomato">
-                <span class="fas fa-camera-retro"></span>
-            </div>
-            <i class="fas fa-bars"></i>
-            <h1 class="title"><div class="fas fa-bars"></div>Hello</h1>
-            <h1 class="subtitle">Hello</h1>
-
-            <h1 class="title">Hello</h1>
-            <h2 class="title is-2">Hello</h2>
-            <h3 class="title is-3">Hello</h3>
-            <h4 class="title is-4">Hello</h4>
-            <h5 class="title is-5">Hello</h5>
-            <h6 class="title is-6">Hello</h6>
-        </div>
-
-            <div class="block">
-                <button id="left" class="button">left</button>
-                <button class="button is-white">button</button>
-                <button id="right" class="button is-light">right</button>
-                <button class="button is-dark">button</button>
-                <button class="button is-white">button</button>
-                <button class="button is-link">button</button>
-            </div>
-
-            <div class="block">
-                <a href="" class="button is-primary is-small is-outlined pulse">Primary</a>
-                <a href="" class="button is-info is-large is-outlined pulse">Info</a>
-                <a href="" class="button is-success is-outlined pulse">Success</a>
-                <a href="" class="button is-warning pulse">Warning</a>
-                <a href="" class="button is-danger">Danger</a>
-            </div>
-        
-    </div>
+    <main class="light_blue">
+      <a id="menu">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"></path>
+        </svg>
+      </a>
+      <p>Click on the menu icon to open the drawer</p>
+    </main>
 
     <script>
-
-        const app = new Vue({
-            el: '#app',
-            data: {
-                forums: [
-                    [
-                        {
-                            title: 'ก้นครัว',
-                            id: 'food',
-                            icon: 'icon-food'
-                        },
-                        {
-                            title: 'กรีนโซน',
-                            id: 'greenzone',
-                            icon: 'icon-greenzone'
-                        },
-                        {
-                            title: 'กรุงโซล',
-                            id: 'korea',
-                            icon: 'icon-kr'
-                        },
-                        {
-                            title: 'กล้อง',
-                            id: 'camera',
-                            icon: 'icon-camera'
-                        },
-                        {
-                            title: 'การ์ตูน',
-                            id: 'cartoon',
-                            icon: 'icon-cartoon'
-                        },
-                        {
-                            title: 'แกลเลอรี่',
-                            id: 'gallery',
-                            icon: 'icon-gallery'
-                        },
-                        {
-                            title: 'ไกลบ้าน',
-                            id: 'klaibann',
-                            icon: 'icon-klaiban'
-                        },
-                        {
-                            title: 'จตุจักร',
-                            id: 'jatujak',
-                            icon: 'icon-pet'
-                        }
-                    ],
-                    [
-                        {
-                            title: 'alpha',
-                            id: 'alpla',
-                            icon: 'icon-alpha'
-                        }
-                    ],
-                    [
-                        {
-                            title: 'beta',
-                            id: 'beta',
-                            icon: 'icon-beta'
-                        }
-                    ],
-                    [
-                        {
-                            title: 'lorem',
-                            id: 'lorem',
-                            icon: 'icon-lorem'
-                        }
-                    ],
-                    [
-                        {
-                            title: 'ipsum',
-                            id: 'ipsum',
-                            icon: 'icon-ipsum'
-                        }
-                    ]
-                ]
-            }
-        });
-        
       /*
        * Open the drawer when the menu ison is clicked.
        */
-      var right = document.querySelector('.button.right');
-      var left = document.querySelector('.button.left');
-    //   var main = document.querySelector('main');
-      var drawer = document.querySelector('.submenu-room');
+      var menu = document.querySelector('#menu');
+      var menu2 = document.querySelector('#menu2');
+      var main = document.querySelector('main');
+      var drawer = document.querySelector('#drawer');
 
-      var cursor = 0;
+      function open(e) {
+        drawer.classList.toggle('open');
+        e.stopPropagation();
+      }
 
-      if (window.matchMedia("(min-width: 414px)").matches) {
-                left.classList.add('hidden');
-            }
-
-      right.addEventListener('click', function(e) {
-          if (cursor == 0) {
-            drawer.classList.toggle('righted');
-            right.classList.toggle('hidden');
-            cursor = 1;
-            // for 414px
-            if (window.matchMedia("(min-width: 414px)").matches) {
-                left.classList.remove('hidden');
-            }
-            // left.classList.add('hidden');
-          }
-          else {
-            drawer.classList.remove('lefted');
-            left.classList.toggle('hidden');
-            cursor = 0;
-          }
-        //   e.stopPropagation();
+      menu.addEventListener('click', open);
+      menu2.addEventListener('click', open);
+      main.addEventListener('click', function() {
+        drawer.classList.remove('open');
       });
-      left.addEventListener('click', function(e) {
-          if (cursor == 0) {
-            drawer.classList.toggle('lefted');
-            left.classList.toggle('hidden');
-            cursor = 1;
-          }
-          else {
-            drawer.classList.remove('righted');
-            right.classList.toggle('hidden');
-            cursor = 0;
-            if (window.matchMedia("(min-width: 414px)").matches) {
-                left.classList.add('hidden');
-            }
-          }
-        //   drawer.classList.remove('righted');
-        //   right.classList.toggle('rightest')
-      })
-    //   main.addEventListener('click', function() {
-    //     drawer.classList.remove('open');
-    //   });
 
-
-        // const submenuRoom = document.querySelector('.submenu-room');
-        // function moveRight(e) {
-        //   submenuRoom.classList.toggle('righted');
-        //   e.stopPropagation();
-        // }
-        // const left = document.querySelector('#left');
-        // const right = document.querySelector('#right');
-        // left.addEventListener('click', moveLeft);
-        // right.addEventListener('click', e => submenuRoom.classList.toggle('righted'));
-        
-    </script>
-</body>
-</html>
+    </script></body></html>
