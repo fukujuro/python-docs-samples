@@ -16,7 +16,7 @@ from google.appengine.ext import ndb
 
 
 class Task(ndb.Model):
-    tag = ndb.KeyProperty(kind=Tag)
+    forum = ndb.KeyProperty(kind=Forum)
     start = ndb.DateTimeProperty(auto_now_add=True)
     end = ndb.DateTimeProperty(auto_now=True)
     email = ndb.StringProperty()
@@ -35,3 +35,22 @@ class Forum(ndb.Model):
     @property
     def topics(self):
         return Topic.gql("WHERE tags = :1", self.key)
+
+
+class Topic(ndb.Model):
+    top_id = ndb.StringProperty(required=True)
+    vote = ndb.IntegerProperty(default=0)
+    comment = ndb.IntegerProperty(default=0)
+    author = ndb.StringProperty(required=True)
+    disp_topic = ndb.StringProperty(indexed=False)
+    topic_type = ndb.StringProperty(indexed=False)
+    utime = ndb.DateTimeProperty()
+    tags = ndb.KeyProperty(repeated=True)
+
+    @property
+    def comments(self):
+        return Comment.query(Comment.topic == self.key)
+
+    @property
+    def tasks(self):
+        return TaskTopic.query(TaskTopic.topic == self.key)
