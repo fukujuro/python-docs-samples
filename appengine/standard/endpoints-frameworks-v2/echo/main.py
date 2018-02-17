@@ -222,6 +222,7 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
         item = j['item']
         looping = 0
         while len(item['topic']) > 0 and looping < loops:
+            topics = []
             for t in item['topic']:
                 if '_id' not in t.keys():
                     continue
