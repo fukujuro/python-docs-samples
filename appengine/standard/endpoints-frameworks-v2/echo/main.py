@@ -31,6 +31,7 @@ from models import Task
 from models import Topic
 from datetime import datetime
 from google.appengine.ext import ndb
+from google.appengine.api import taskqueue
 # [END imports]
 
 appengine.monkeypatch()
