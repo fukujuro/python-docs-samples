@@ -48,9 +48,7 @@ class TaskForm(messages.Message):
     title = messages.StringField(1)
     loops = messages.IntegerField(2, variant=messages.Variant.INT32,
                                   default=1)
-    task_key = messages.StringField(3)
-
-
+    last_id = messages.StringField(3)
 
 ECHO_RESOURCE = endpoints.ResourceContainer(
     EchoRequest,
@@ -151,15 +149,8 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
 
     def post(self):
         forum = self.request.get('forum')
-        urlsafe = self.request.get('task_key')
         loops = self.request.get('loops')
-        task_key = ndb.Key(urlsafe=urlsafe)
-        task = task_key.get()
-        task_id = str(task_key.id())
-
-        if task.counting:
-            counting = task.counting
-        
+        last_id = self.request.get('last_id')
         url = 'https://pantip.com/forum/topic/ajax_json_all_topic_info_loadmore'
         headers = { 'User-Agent': 'grit.intelligence@gmail.com',
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -170,8 +161,7 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
                     ('dataSend[topic_type][default_type]', '1'),
                     ('thumbnailview', 'false'),
                     ('current_page', '1')]
-        # if task.last_id != '0':
-        payload[0] = (payload[0][0], task.last_id)
+        payload[0] = (payload[0][0], last_id)
         res = requests.post(url, payload, headers=headers)
         j = res.json()
         item = j['item']
@@ -200,8 +190,6 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
                 topics.append(topic)
                 counting += 1
             ndb.put_multi_async(topics)
-            task.last_id = str(item['last_id_current_page'])
-            task.counting = counting
             task.put_async()
             looping += 1
             payload[0] = (payload[0][0], task.last_id)
@@ -214,14 +202,8 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
 
     def post(self):
         tag = self.request.get('tag')
-        urlsafe = self.request.get('task_key')
         loops = self.request.get('loops')
-        task_key = ndb.Key(urlsafe=urlsafe)
-        task = task_key.get()
-        task_id = str(task_key.id())
-
-        counting = task.counting
-
+        last_id = self.request.get('last_id')
         url = 'https://pantip.com/forum/topic/ajax_json_all_topic_tag'
         headers = { 'User-Agent': 'grit.intelligence@gmail.com',
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -232,8 +214,7 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                     ('dataSend[topic_type][default_type]', '1'),
                     ('thumbnailview', 'false'),
                     ('current_page', '1')]
-        # if task.last_id != '0':
-        payload[0] = (payload[0][0], task.last_id)
+        payload[0] = (payload[0][0], last_id)
         res = requests.post(url, payload, headers=headers)
         j = res.json()
         item = j['item']
@@ -262,8 +243,6 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                 topics.append(topic)
                 counting += 1
             ndb.put_multi_async(topics)
-            task.last_id = str(item['last_id_current_page'])
-            task.counting = counting
             task.put_async()
             looping += 1
             payload[0] = (payload[0][0], task.last_id)
