@@ -48,7 +48,7 @@ class TaskForm(messages.Message):
     title = messages.StringField(1)
     loops = messages.IntegerField(2, variant=messages.Variant.INT32,
                                   default=1)
-    last_id = messages.StringField(3)
+    last_id = messages.StringField(3, default='0')
 
 ECHO_RESOURCE = endpoints.ResourceContainer(
     EchoRequest,
