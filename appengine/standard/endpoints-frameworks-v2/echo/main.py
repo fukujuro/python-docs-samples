@@ -161,7 +161,8 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
                     ('dataSend[topic_type][default_type]', '1'),
                     ('thumbnailview', 'false'),
                     ('current_page', '1')]
-        payload[0] = (payload[0][0], last_id)
+        if last_id != '0':
+            payload[0] = (payload[0][0], last_id)
         res = requests.post(url, payload, headers=headers)
         j = res.json()
         item = j['item']
@@ -214,7 +215,8 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                     ('dataSend[topic_type][default_type]', '1'),
                     ('thumbnailview', 'false'),
                     ('current_page', '1')]
-        payload[0] = (payload[0][0], last_id)
+        if last_id != '0':
+            payload[0] = (payload[0][0], last_id)
         res = requests.post(url, payload, headers=headers)
         j = res.json()
         item = j['item']
