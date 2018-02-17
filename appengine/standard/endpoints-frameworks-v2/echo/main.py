@@ -73,8 +73,8 @@ class EchoApi(remote.Service):
                     forum = forum_key)
         taskqueue.add(params={'title'   : request.title,
                               'loops'   : request.loops,
-                              'last_id': request.last_id},
-                      url='/collect_topics/forum/')
+                              'last_id' : request.last_id},
+                      url='/collect_topics/forum')
         task.put_async()
         return TaskForm(title=request.title)
 
@@ -91,7 +91,7 @@ class EchoApi(remote.Service):
                     tag = tag_key)
         taskqueue.add(params={'title'   : request.title,
                               'loops'   : request.loops,
-                              'last_id': request.last_id},
+                              'last_id' : request.last_id},
                       url='/collect_topics/tag')
         task.put_async()
         return TaskForm(title=request.title)
@@ -215,7 +215,7 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                     ('dataSend[topic_type][default_type]', '1'),
                     ('thumbnailview', 'false'),
                     ('current_page', '1')]
-        if last_id != '0':
+        if last_id and last_id != '0':
             payload[0] = (payload[0][0], last_id)
         res = requests.post(url, payload, headers=headers)
         j = res.json()
