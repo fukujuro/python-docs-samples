@@ -27,7 +27,7 @@ from requests_toolbelt.adapters import appengine
 import json
 from models import Task
 from models import Forum
-from models import topic
+from models import Topic
 from datetime import datetime
 from google.appengine.ext import ndb
 # [END imports]
