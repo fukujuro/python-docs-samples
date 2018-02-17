@@ -15,18 +15,24 @@
 from google.appengine.ext import ndb
 
 
-class Task(ndb.Model):
-    forum = ndb.KeyProperty(kind=Forum)
-    start = ndb.DateTimeProperty(auto_now_add=True)
-    end = ndb.DateTimeProperty(auto_now=True)
-    email = ndb.StringProperty()
-    last_id = ndb.StringProperty(default='0')
+class Tag(ndb.Model):
+    tag = ndb.StringProperty(required=True)
+    url = ndb.StringProperty(indexed=False)
+    count = ndb.IntegerProperty(default=0)
     counting = ndb.IntegerProperty(default=0)
+
+    @property
+    def tasks(self):
+        return Task.query(Task.tag == self.key)
+
+    @property
+    def topics(self):
+        return Topic.gql("WHERE tags = :1", self.key)
 
 
 class Forum(ndb.Model):
     forum = ndb.StringProperty(required=True)
-    url = ndb.StringProperty(indexed=False)
+    counting = ndb.IntegerProperty(default=0)
 
     @property
     def tasks(self):
@@ -34,7 +40,17 @@ class Forum(ndb.Model):
 
     @property
     def topics(self):
-        return Topic.gql("WHERE tags = :1", self.key)
+        return Topic.gql("WHERE forums = :1", self.key)
+
+
+class Task(ndb.Model):
+    tag = ndb.KeyProperty(kind=Tag)
+    forum = ndb.KeyProperty(kind=Forum)
+    start = ndb.DateTimeProperty(auto_now_add=True)
+    end = ndb.DateTimeProperty(auto_now=True)
+    email = ndb.StringProperty()
+    last_id = ndb.StringProperty(default='0')
+    counting = ndb.IntegerProperty(default=0)
 
 
 class Topic(ndb.Model):
@@ -46,6 +62,7 @@ class Topic(ndb.Model):
     topic_type = ndb.StringProperty(indexed=False)
     utime = ndb.DateTimeProperty()
     tags = ndb.KeyProperty(repeated=True)
+    forums = ndb.KeyProperty(repeated=True)
 
     @property
     def comments(self):
