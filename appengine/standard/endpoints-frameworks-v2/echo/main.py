@@ -148,7 +148,7 @@ api = endpoints.api_server([EchoApi])
 class CollectTopicsForumHandler(webapp2.RequestHandler):
 
     def post(self):
-        forum = self.request.get('forum')
+        forum = self.request.get('title')
         loops = self.request.get('loops')
         last_id = self.request.get('last_id')
         url = 'https://pantip.com/forum/topic/ajax_json_all_topic_info_loadmore'
@@ -202,7 +202,7 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
 class CollectTopicsTagHandler(webapp2.RequestHandler):
 
     def post(self):
-        tag = self.request.get('tag')
+        tag = self.request.get('title')
         loops = self.request.get('loops')
         last_id = self.request.get('last_id')
         url = 'https://pantip.com/forum/topic/ajax_json_all_topic_tag'
