@@ -25,8 +25,9 @@ import webapp2
 import requests
 from requests_toolbelt.adapters import appengine
 import json
-from models import Task
+from models import Tag
 from models import Forum
+from models import Task
 from models import Topic
 from datetime import datetime
 from google.appengine.ext import ndb
@@ -79,7 +80,7 @@ class EchoApi(remote.Service):
 
     @endpoints.method(TaskForm, TaskForm, path='echo/tag',
         http_method='POST', name='tag')
-    def tag(self, requeset):
+    def tag(self, request):
         tag_key = ndb.Key(Tag, request.title)
         tag = Tag.get_or_insert(request.title,
                                 key = tag_key)
