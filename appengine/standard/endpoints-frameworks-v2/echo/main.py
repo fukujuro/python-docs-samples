@@ -96,7 +96,7 @@ class EchoApi(remote.Service):
                               'task_key': task.key.urlsafe()},
                       url='/collect_topics/tag')
         task.put_async()
-        return TaskForm(tag=request.title)
+        return TaskForm(title=request.title)
 
     @endpoints.method(
         # This method takes a ResourceContainer defined above.
