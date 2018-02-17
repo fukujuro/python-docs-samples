@@ -157,7 +157,8 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
         task = task_key.get()
         task_id = str(task_key.id())
 
-        counting = task.counting
+        if task.counting:
+            counting = task.counting
         
         url = 'https://pantip.com/forum/topic/ajax_json_all_topic_info_loadmore'
         headers = { 'User-Agent': 'grit.intelligence@gmail.com',
