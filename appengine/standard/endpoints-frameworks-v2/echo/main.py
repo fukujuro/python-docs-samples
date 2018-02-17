@@ -194,7 +194,8 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
             ndb.put_multi_async(topics)
             # task.put_async()
             looping += 1
-            payload[0] = (payload[0][0], task.last_id)
+            last_id = str(item['last_id_current_page'])
+            payload[0] = (payload[0][0], last_id)
             res = requests.post(url, payload, headers=headers)
             j = res.json()
             item = j['item']
@@ -249,7 +250,8 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
             ndb.put_multi_async(topics)
             # task.put_async()
             looping += 1
-            payload[0] = (payload[0][0], task.last_id)
+            last_id = str(item['last_id_current_page'])
+            payload[0] = (payload[0][0], last_id)
             res = requests.post(url, payload, headers=headers)
             j = res.json()
             item = j['item']
