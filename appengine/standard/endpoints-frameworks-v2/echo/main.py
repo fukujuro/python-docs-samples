@@ -210,7 +210,7 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                     'x-requested-with': 'XMLHttpRequest'}
         payload = [ ('last_id_current_page', '0'),
-                    ('dataSend[room]', tag),
+                    ('dataSend[tag]', tag),
                     ('dataSend[topic_type][type]', '0'),
                     ('dataSend[topic_type][default_type]', '1'),
                     ('thumbnailview', 'false'),
