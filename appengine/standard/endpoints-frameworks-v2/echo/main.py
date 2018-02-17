@@ -78,7 +78,7 @@ class EchoApi(remote.Service):
                               'task_key': task.key.urlsafe()},
                       url='/collect_topics/forum/')
         task.put_async()
-        return TaskForm(forum=request.forum)
+        return TaskForm(title=request.title)
 
     @endpoints.method(TaskForm, TaskForm, path='echo/tag',
         http_method='POST', name='tag')
