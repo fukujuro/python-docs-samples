@@ -168,6 +168,7 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
         item = j['item']
         looping = 0
         while len(item['topic']) > 0 and looping < loops:
+            topics = []
             for t in item['topic']:
                 if '_id' not in t.keys():
                     continue
@@ -186,10 +187,10 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
                               disp_topic = t['disp_topic'],
                               topic_type = str(t['topic_type']),
                               utime = datetime.strptime(t['utime'], '%m/%d/%Y %H:%M:%S'),
-                              tags = tags,
-                              forums = forums)
+                              tags = tags)
+                            #   forums = forums)
                 topics.append(topic)
-                counting += 1
+                # counting += 1
             ndb.put_multi_async(topics)
             task.put_async()
             looping += 1
@@ -244,7 +245,7 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                               tags = tags)
                             #   forums = forums)
                 topics.append(topic)
-                counting += 1
+                # counting += 1
             ndb.put_multi_async(topics)
             task.put_async()
             looping += 1
