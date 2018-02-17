@@ -44,8 +44,11 @@ class EchoResponse(messages.Message):
 
 class TaskForm(messages.Message):
     title = messages.StringField(1)
-    loops = messages.IntegerField(2, default=1)
+    loops = messages.IntegerField(2, variant=messages.Variant.INT32,
+                                  default=1)
     task_key = messages.StringField(3)
+
+
 
 ECHO_RESOURCE = endpoints.ResourceContainer(
     EchoRequest,
