@@ -57,7 +57,7 @@ ECHO_RESOURCE = endpoints.ResourceContainer(
 @endpoints.api(name='echo', version='v1')
 class EchoApi(remote.Service):
 
-    @endpoints.method(TaskForm, TaskForm, path='forum/add',
+    @endpoints.method(TaskForm, TaskForm, path='echo/forum',
         http_method='POST', name='forum')
     def forum(self, request):
         forum_key = ndb.Key(Forum, request.title)
@@ -75,7 +75,7 @@ class EchoApi(remote.Service):
         task.put_async()
         return TaskForm(forum=request.forum)
 
-    @endpoints.method(TaskForm, TaskForm, path='tag/add',
+    @endpoints.method(TaskForm, TaskForm, path='echo/tag',
         http_method='POST', name='tag')
     def tag(self, requeset):
         tag_key = ndb.Key(Tag, request.title)
