@@ -175,8 +175,8 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
                 if isinstance(t['tags'], list):
                     for tt in t['tags']:
                         tags.append(ndb.Key(Tag, tt['tag']))
-                forums = []
-                forums.append(ndb.Key(Forum, forum))
+                # forums = []
+                # forums.append(ndb.Key(Forum, title))
                 top_key = ndb.Key(Topic, str(t['_id']))
                 topic = Topic(key = top_key,
                               top_id = str(t['_id']),
@@ -229,8 +229,8 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                 if isinstance(t['tags'], list):
                     for tt in t['tags']:
                         tags.append(ndb.Key(Tag, tt['tag']))
-                forums = []
-                forums.append(ndb.Key(Forum, forum))
+                # forums = []
+                # forums.append(ndb.Key(Forum, title))
                 top_key = ndb.Key(Topic, str(t['_id']))
                 topic = Topic(key = top_key,
                               top_id = str(t['_id']),
