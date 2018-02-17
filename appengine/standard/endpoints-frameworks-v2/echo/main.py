@@ -73,7 +73,7 @@ class EchoApi(remote.Service):
                     forum = forum_key)
         taskqueue.add(params={'title'   : request.title,
                               'loops'   : request.loops,
-                              'task_key': task.key.urlsafe()},
+                              'last_id': request.last_id},
                       url='/collect_topics/forum/')
         task.put_async()
         return TaskForm(title=request.title)
@@ -91,7 +91,7 @@ class EchoApi(remote.Service):
                     tag = tag_key)
         taskqueue.add(params={'title'   : request.title,
                               'loops'   : request.loops,
-                              'task_key': task.key.urlsafe()},
+                              'last_id': request.last_id},
                       url='/collect_topics/tag')
         task.put_async()
         return TaskForm(title=request.title)
