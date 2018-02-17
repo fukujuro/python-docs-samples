@@ -62,7 +62,7 @@ class EchoApi(remote.Service):
     def forum(self, request):
         forum_key = ndb.Key(Forum, request.forum)
         forum = Forum.get_or_insert(request.forum,
-                                    key = forum_key),
+                                    key = forum_key,
                                     forum = request.forum)
         task_id = Task.allocate_ids(size=1)[0]
         task_key = ndb.Key(Task, task_id)
