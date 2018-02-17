@@ -247,7 +247,7 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                 topics.append(topic)
                 # counting += 1
             ndb.put_multi_async(topics)
-            task.put_async()
+            # task.put_async()
             looping += 1
             payload[0] = (payload[0][0], task.last_id)
             res = requests.post(url, payload, headers=headers)
