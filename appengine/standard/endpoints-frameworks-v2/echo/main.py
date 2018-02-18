@@ -146,8 +146,21 @@ api = endpoints.api_server([EchoApi])
 
 class CollectTopicsForumHandler(webapp2.RequestHandler):
 
+    def _addForum(self, top_key, forum_key):
+        topic = top_key.get()
+        if topic and topic.forums:
+            if forum_key in topic.forums:
+                return topic.forums
+            else:
+                forums = topic.forums
+                forums.append[forum_key]
+                return forums
+        else:
+            return [forum_key]
+
     def post(self):
         forum = self.request.get('title')
+        forum_key = ndb.Key(Forum, forum)
         loops = int(self.request.get('loops'))
         last_id = self.request.get('last_id')
         url = 'https://pantip.com/forum/topic/ajax_json_all_topic_info_loadmore'
@@ -175,8 +188,6 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
                 if isinstance(t['tags'], list):
                     for tt in t['tags']:
                         tags.append(ndb.Key(Tag, tt['tag']))
-                forums = []
-                forums.append(ndb.Key(Forum, forum))
                 top_key = ndb.Key(Topic, str(t['_id']))
                 topic = Topic(key = top_key,
                               top_id = str(t['_id']),
@@ -187,7 +198,7 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
                               topic_type = str(t['topic_type']),
                               utime = datetime.strptime(t['utime'], '%m/%d/%Y %H:%M:%S'),
                               tags = tags,
-                              forums = forums)
+                              forums = self._addForum(top_key, forum_key))
                 topics.append(topic)
                 # counting += 1
             ndb.put_multi_async(topics)
