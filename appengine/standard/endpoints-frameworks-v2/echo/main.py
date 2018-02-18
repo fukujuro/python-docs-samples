@@ -170,8 +170,8 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
                     ('dataSend[topic_type][default_type]', '1'),
                     ('thumbnailview', 'false'),
                     ('current_page', '1')]
-        # if last_id != '0':
-        #     payload[0] = (payload[0][0], last_id)
+        if last_id != '0':
+            payload[0] = (payload[0][0], last_id)
         res = requests.post(url, payload, headers=headers)
         j = res.json()
         item = j['item']
@@ -226,8 +226,8 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                     ('dataSend[topic_type][default_type]', '1'),
                     ('thumbnailview', 'false'),
                     ('current_page', '1')]
-        # if last_id and last_id != '0':
-        #     payload[0] = (payload[0][0], last_id)
+        if last_id and last_id != '0':
+            payload[0] = (payload[0][0], last_id)
         res = requests.post(url, payload, headers=headers)
         j = res.json()
         item = j['item']
@@ -241,8 +241,6 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                 if isinstance(t['tags'], list):
                     for tt in t['tags']:
                         tags.append(ndb.Key(Tag, tt['tag']))
-                # forums = []
-                # forums.append(ndb.Key(Forum, title))
                 top_key = ndb.Key(Topic, str(t['_id']))
                 topic = Topic(key = top_key,
                               top_id = str(t['_id']),
@@ -253,7 +251,6 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                               topic_type = str(t['topic_type']),
                               utime = datetime.strptime(t['utime'], '%m/%d/%Y %H:%M:%S'),
                               tags = tags)
-                            #   forums = forums)
                 topics.append(topic)
                 # counting += 1
             ndb.put_multi_async(topics)
