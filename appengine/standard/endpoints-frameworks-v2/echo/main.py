@@ -60,6 +60,15 @@ ECHO_RESOURCE = endpoints.ResourceContainer(
 @endpoints.api(name='echo', version='v1')
 class EchoApi(remote.Service):
 
+    @endpoints.method(TaskForm, TaskForm, path='echo/test',
+        http_method='POST', name='test')
+    def test(self, request):
+        type_of = type(request.title)
+        taskqueue.add(params={'title'   : request.title,
+                              'loops'   : request.loops,
+                              'last_id' : request.last_id},
+                      url='/test')
+
     @endpoints.method(TaskForm, TaskForm, path='echo/forum',
         http_method='POST', name='forum')
     def forum(self, request):
@@ -149,7 +158,7 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
 
     def post(self):
         forum = self.request.get('title')
-        loops = self.request.get('loops')
+        loops = int(self.request.get('loops'))
         last_id = self.request.get('last_id')
         url = 'https://pantip.com/forum/topic/ajax_json_all_topic_info_loadmore'
         headers = { 'User-Agent': 'grit.intelligence@gmail.com',
@@ -205,7 +214,7 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
 
     def post(self):
         tag = self.request.get('title')
-        loops = self.request.get('loops')
+        loops = int(self.request.get('loops'))
         last_id = self.request.get('last_id')
         url = 'https://pantip.com/forum/topic/ajax_json_all_topic_tag'
         headers = { 'User-Agent': 'grit.intelligence@gmail.com',
@@ -257,10 +266,18 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
             item = j['item']
 
 
+class TestHandler(webapp2.RequestHandler):
+
+    def post(self):
+        pass
+
+
+
 app = ndb.toplevel(
     webapp2.WSGIApplication([
     ('/collect_topics/forum', CollectTopicsForumHandler),
-    ('/collect_topics/tag'  , CollectTopicsTagHandler)
+    ('/collect_topics/tag'  , CollectTopicsTagHandler),
+    ('/test'                , TestHandler)
     ],
     debug=True)
 )
