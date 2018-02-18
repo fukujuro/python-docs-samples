@@ -1,0 +1,25 @@
+indexes:
+
+- kind: Topic
+  properties:
+  - name: tags
+  - name: vote
+    direction: desc
+    
+- kind: Topic
+  properties:
+  - name: tags
+  - name: comment
+    direction: desc
+  
+- kind: Topic
+  properties:
+  - name: author
+  - name: vote
+    direction: desc
+    
+- kind: Topic
+  properties:
+  - name: author
+  - name: comment
+    direction: desc
