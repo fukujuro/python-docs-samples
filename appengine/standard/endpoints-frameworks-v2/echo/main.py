@@ -76,15 +76,10 @@ class EchoApi(remote.Service):
         forum = Forum.get_or_insert(request.title,
                                     key = forum_key,
                                     forum = request.title)
-        task_id = Task.allocate_ids(size=1)[0]
-        task_key = ndb.Key(Task, task_id)
-        task = Task(key = task_key,
-                    forum = forum_key)
         taskqueue.add(params={'title'   : request.title,
                               'loops'   : request.loops,
                               'last_id' : request.last_id},
                       url='/collect_topics/forum')
-        task.put_async()
         return TaskForm(title=request.title)
 
     @endpoints.method(TaskForm, TaskForm, path='echo/tag',
@@ -94,15 +89,10 @@ class EchoApi(remote.Service):
         tag = Tag.get_or_insert(request.title,
                                 key = tag_key,
                                 tag = request.title)
-        task_id = Task.allocate_ids(size=1)[0]
-        task_key = ndb.Key(Task, task_id)
-        task = Task(key = task_key,
-                    tag = tag_key)
         taskqueue.add(params={'title'   : request.title,
                               'loops'   : request.loops,
                               'last_id' : request.last_id},
                       url='/collect_topics/tag')
-        task.put_async()
         return TaskForm(title=request.title)
 
     @endpoints.method(
@@ -186,7 +176,7 @@ class CollectTopicsForumHandler(webapp2.RequestHandler):
                     for tt in t['tags']:
                         tags.append(ndb.Key(Tag, tt['tag']))
                 forums = []
-                forums.append(ndb.Key(Forum, title))
+                forums.append(ndb.Key(Forum, forum))
                 top_key = ndb.Key(Topic, str(t['_id']))
                 topic = Topic(key = top_key,
                               top_id = str(t['_id']),
@@ -251,7 +241,7 @@ class CollectTopicsTagHandler(webapp2.RequestHandler):
                               topic_type = str(t['topic_type']),
                               utime = datetime.strptime(t['utime'], '%m/%d/%Y %H:%M:%S'),
                               tags = tags)
-                topics.append(topic)
+                topics.append(topic)    
                 # counting += 1
             ndb.put_multi_async(topics)
             # task.put_async()
