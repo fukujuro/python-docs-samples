@@ -20,6 +20,9 @@ class Tag(ndb.Model):
     url = ndb.StringProperty(indexed=False)
     count = ndb.IntegerProperty(default=0)
     counting = ndb.IntegerProperty(default=0)
+    start = ndb.DateTimeProperty(auto_now_add=True)
+    end = ndb.DateTimeProperty(auto_now=True)
+    last_id = ndb.StringProperty(default='0')
 
     @property
     def tasks(self):
@@ -33,6 +36,9 @@ class Tag(ndb.Model):
 class Forum(ndb.Model):
     forum = ndb.StringProperty(required=True)
     counting = ndb.IntegerProperty(default=0)
+    start = ndb.DateTimeProperty(auto_now_add=True)
+    end = ndb.DateTimeProperty(auto_now=True)
+    last_id = ndb.StringProperty(default='0')
 
     @property
     def tasks(self):
